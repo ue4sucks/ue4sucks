@@ -1,0 +1,40 @@
+﻿<Window x:Class="UE4SUCKS.Views.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:ViewModel="clr-namespace:UE4SUCKS.ViewModels"
+		xmlns:Control="clr-namespace:UE4SUCKS.Views.Control"
+		Title="UE4SUCKS" Topmost="{Binding IsForefronted}" Height="480" Width="640" MinHeight="384" MinWidth="512">
+	<Window.DataContext>
+		<ViewModel:MainViewModel/>
+	</Window.DataContext>
+	<DockPanel>
+		<Grid DockPanel.Dock="Top" Visibility="{Binding HeaderVisibility, Mode=OneWay}">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<StackPanel Grid.Column="0">
+				<Label Content="{Binding TwitterAuthLabel}" FontSize="16" Foreground="{Binding TwitterAuthBrush, Mode=OneWay}" HorizontalAlignment="Center" Margin="5"/>
+				<Button Content="{Binding TwitterAuthButton}" Click="Authorize" FontSize="14" Height="35" Width="140"/>
+			</StackPanel>
+			<StackPanel Grid.Column="1">
+				<Label Content="{Binding ProcessAppointLabel}" FontSize="16" Foreground="{Binding ProcessAppointBrush, Mode=OneWay}" ToolTip="{Binding ProcessAppointTooltip}" HorizontalAlignment="Center" Margin="5"/>
+				<Button Content="{Binding ProcessAppointButton}" Click="Watch" FontSize="14" Height="35" Width="140"/>
+			</StackPanel>
+		</Grid>
+		<Grid DockPanel.Dock="Bottom" Margin="15">
+			<ScrollViewer VerticalScrollBarVisibility="Auto">
+				<RichTextBox IsReadOnly="True" FontSize="16">
+					<RichTextBox.ContextMenu>
+						<ContextMenu>
+							<MenuItem Header="プロセスの再起動を自動化する" IsChecked="{Binding IsAutomatized}" IsEnabled="{Binding IsProcessWatched}" IsCheckable="True"/>
+							<MenuItem Header="ログをウィンドウ内で最大化" IsChecked="{Binding IsMaximized}" IsCheckable="True"/>
+							<MenuItem Header="ウィンドウを常に最前面に表示" IsChecked="{Binding IsForefronted}" IsCheckable="True"/>
+						</ContextMenu>
+					</RichTextBox.ContextMenu>
+					<FlowDocument Control:DocumentBinding.Blocks="{Binding Blocks}" LineHeight="2"/>
+				</RichTextBox>
+			</ScrollViewer>
+		</Grid>
+	</DockPanel>
+</Window>
